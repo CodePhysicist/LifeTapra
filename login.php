@@ -248,7 +248,7 @@ Problem:
 
 
                     request.fail(function (jqXHR, textStatus, errorThrown){
-                            ShowAlert(textStatus);
+                            ShowAlert("Error connecting to the server.");
                     });
 
 	    }
