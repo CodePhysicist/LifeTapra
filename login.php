@@ -4,6 +4,12 @@ require('lib/routeros_api.class.php');
 include("configs.php");
 
 $mac = trim($_GET["mac"]);
+
+//Get mac from cookies
+if(isset($_COOKIE["c_mac"])) {
+    $mac = trim($_COOKIE["c_mac"]);
+}
+
 $error = trim($_GET["error"]);
 if($error == "invalid password")
 {
@@ -225,7 +231,7 @@ Problem:
                             }
                             else if(response == "FL")
                             {
-                                ShowAlert("Max user limit reached.");
+                                ShowAlert("Max user limit reached. mac=<?php echo $mac;?>");
                                 return;
                             }
                             else if(response == "N")
