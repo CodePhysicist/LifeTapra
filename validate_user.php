@@ -37,7 +37,7 @@ if($gae == "E")
 include "lib/connect_db.php";
 
 //Check if user exists in Raspberry Pi
-$sql = "SELECT profile FROM users WHERE username = '$user' AND password = '$pass'  ";
+$sql = "SELECT profile, max_user_num FROM users WHERE username = '$user' AND password = '$pass'  ";
 $result = $conn->query($sql);
 
 //T success
@@ -49,7 +49,8 @@ if($result->num_rows > 0)
 {
     $row = $result->fetch_assoc();
     $profile = $row["profile"];
-    
+    $max_user = $row["max_user_num"];
+
     $sql = "SELECT * FROM profile_login_prop WHERE profile_name = '$profile' ";
     $result = $conn->query($sql);
     if($result->num_rows === 0)
@@ -61,6 +62,10 @@ if($result->num_rows > 0)
     $row = $result->fetch_assoc();
     $type = $row["type"];
     $max_user_num = $row["max_user_num"];
+
+    if($max_user_num < $max_user)
+      $max_user_num = $max_user;
+      
     if($type === "LS")
     {
         $sql = "SELECT username FROM user_mac_status WHERE username = '$user' AND mac = '$mac'";
